@@ -3,7 +3,7 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         //Create a JFrame to hold our game panel
-        JFrame frame = new JFrame("Pacxon");
+        JFrame frame = new JFrame("Square Paint");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Create an instance of the GamePanel
