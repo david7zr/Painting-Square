@@ -4,29 +4,49 @@ import java.util.Random;
 public class Ghost {
     private int x, y;
     private int size;
+    private int speed;
     private Color color;
-    private int dx, dy;
-    private Random random;
+    private int dx, dy; // Direction
+
+    private static final int TILE_SIZE = 20;
+    private static final int SPEED = TILE_SIZE / 2; // Adjust speed for faster movement
 
     public Ghost(int startX, int startY, Color color) {
         this.x = startX;
         this.y = startY;
-        this.size = 17; //Size of enemies
+        this.size = TILE_SIZE;
         this.color = color;
-        this.random = new Random();
-        setRandomDirection();
+        this.speed = SPEED;
+
+        Random rand = new Random();
+        this.dx = rand.nextBoolean() ? 1 : -1;
+        this.dy = rand.nextBoolean() ? 1 : -1;
     }
 
-    public void move() {
-        x += dx;
-        y += dy;
-        if (x < 0 || x > 780) dx = -dx;
-        if (y < 0 || y > 580) dy = -dy;
-    }
+    public void move(int panelWidth, int panelHeight, boolean[][] filledPixels) {
+        int nextX = x + dx * speed;
+        int nextY = y + dy * speed;
 
-    private void setRandomDirection() {
-        dx = random.nextInt(10) + 5; //Random speed between 10 and 5
-        dy = random.nextInt(10) + 5; //Random speed between 10 and 5
+        // Bounce off walls
+        if (nextX < 0 || nextX >= panelWidth - size) {
+            dx = -dx;
+        } else {
+            x = nextX;
+        }
+
+        if (nextY < 0 || nextY >= panelHeight - size) {
+            dy = -dy;
+        } else {
+            y = nextY;
+        }
+
+        // Bounce off filled pixels
+        int tileX = x / TILE_SIZE;
+        int tileY = y / TILE_SIZE;
+        if (filledPixels[tileY][tileX]) {
+            dx = -dx;
+            dy = -dy;
+        }
     }
 
     public void draw(Graphics g) {
@@ -34,15 +54,7 @@ public class Ghost {
         g.fillRect(x, y, size, size);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public int getSize() {
-        return size;
+    public Rectangle getBounds() {
+        return new Rectangle(x, y, size, size);
     }
 }

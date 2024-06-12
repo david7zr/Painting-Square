@@ -1,8 +1,7 @@
 import java.awt.*;
 
 public class Tile {
-    private int x, y;
-    private int size;
+    private int x, y, size;
     private boolean filled;
 
     public Tile(int x, int y, int size) {
@@ -13,7 +12,7 @@ public class Tile {
     }
 
     public void fill() {
-        filled = true;
+        this.filled = true;
     }
 
     public boolean isFilled() {
@@ -22,10 +21,10 @@ public class Tile {
 
     public void draw(Graphics g) {
         if (filled) {
-            g.setColor(new Color(0,158,133)); // Filled color
+            g.setColor(Color.BLUE);
             g.fillRect(x, y, size, size);
         } else {
-            g.setColor(Color.BLACK); // Unfilled color
+            g.setColor(Color.GRAY);
             g.drawRect(x, y, size, size);
         }
     }
